@@ -5,11 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
-	"os"
 	"strconv"
 	"strings"
-	"time"
 
 	apiweb "vhrgo/api/frontend/web/v1"
 
@@ -17,12 +14,22 @@ import (
 	"github.com/wenlng/go-captcha/captcha"
 )
 
+type CaptchaRepo interface {
+	// 缓存验证码
+	CacheCaptcha(ctx context.Context, cid string, captcha []byte) error
+	// 获取验证码
+	GetCacheCaptcha(ctx context.Context, cid string) ([]byte, error)
+	// 缓存成功验证码
+	CacheSuccessCaptcha(ctx context.Context, cid string) error
+	// 获取成功验证码
+	GetSuccessCaptcha(ctx context.Context, cid string) error
+}
 type CaptchaUseCase struct {
-	repo UserRepo
+	repo CaptchaRepo
 	log  *log.Helper
 }
 
-func NewCaptchaUseCase(repo UserRepo, logger log.Logger) *CaptchaUseCase {
+func NewCaptchaUseCase(repo CaptchaRepo, logger log.Logger) *CaptchaUseCase {
 	return &CaptchaUseCase{
 		repo: repo,
 		log:  log.NewHelper(log.With(logger, "web", "biz/captcha")),
@@ -35,8 +42,17 @@ func (uc *CaptchaUseCase) GetCaptcha(ctx context.Context) (*apiweb.GetCaptchaRep
 	if err != nil {
 		return &apiweb.GetCaptchaReply{}, err
 	}
-	uc.writeCache(dots, key) // 缓存在本地
+	// uc.writeCache(dots, key) // 缓存在本地
 
+	bt, err := json.Marshal(dots)
+	if err != nil {
+		return nil, err
+	}
+
+	err = uc.repo.CacheCaptcha(ctx, key, bt)
+	if err != nil {
+		return &apiweb.GetCaptchaReply{}, err
+	}
 	return &apiweb.GetCaptchaReply{
 		B64:  b64,
 		Tb64: tb64,
@@ -46,13 +62,13 @@ func (uc *CaptchaUseCase) GetCaptcha(ctx context.Context) (*apiweb.GetCaptchaRep
 
 func (uc *CaptchaUseCase) VerifyCaptcha(ctx context.Context,
 	req *apiweb.VerifyCaptcha) error {
-	cacheData := uc.readCache(req.Cid)
-	if cacheData == "" {
-		return errors.New("验证超时")
+	cacheData, err := uc.repo.GetCacheCaptcha(ctx, req.Cid)
+	if err != nil {
+		return nil
 	}
 	src := strings.Split(req.VerifyValue, ",")
 	var dct map[int]captcha.CharDot
-	if err := json.Unmarshal([]byte(cacheData), &dct); err != nil {
+	if err := json.Unmarshal(cacheData, &dct); err != nil {
 		return nil
 	}
 	chkRet := false
@@ -77,43 +93,11 @@ func (uc *CaptchaUseCase) VerifyCaptcha(ctx context.Context,
 	if !chkRet {
 		return errors.New("验证不通过")
 	}
+
+	// 验证通过
+	err = uc.repo.CacheSuccessCaptcha(ctx, req.Cid)
+	if err != nil {
+		return err
+	}
 	return nil
-}
-
-// 缓存在本地bin下
-func (uc *CaptchaUseCase) writeCache(v interface{}, file string) {
-	bt, _ := json.Marshal(v)
-	// month := time.Now().Month().String()
-
-	path, _ := os.Getwd() // 获取根路径名
-
-	// cacheDir := path + "/app/core/service/bin/captcha/" + month + "/"
-	_ = os.MkdirAll(path, 0660)
-	file = path + file + ".json"
-	logFile, _ := os.OpenFile(file, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
-	defer logFile.Close()
-	// 检查过期文件
-	// checkCacheOvertimeFile()
-	_, _ = io.WriteString(logFile, string(bt))
-	return
-}
-
-// 读本地文件
-func (uc *CaptchaUseCase) readCache(file string) string {
-	month := time.Now().Month().String()
-	path, _ := os.Getwd() // 获取根路径名
-
-	cacheDir := path + "/app/core/service/bin/captcha/" + month + "/"
-	file = cacheDir + file + ".json"
-	if _, err := os.Stat(file); os.IsNotExist(err) { // 检查文件是否存在
-		return ""
-	}
-
-	bt, err := os.ReadFile(file) // 读内容
-	err = os.Remove(file)        // 删除这个文件
-	if err == nil {
-		return string(bt)
-	}
-	return ""
-
 }

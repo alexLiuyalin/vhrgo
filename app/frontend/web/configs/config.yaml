@@ -1,7 +1,7 @@
 server:
   name: "alex.web"
   http:
-    addr: :9901
+    addr: 127.0.0.1:9901
     timeout: 200s
   security_key: 49d51d85-1dad-4eee-9bad-f148f704d013
   export_dir: files

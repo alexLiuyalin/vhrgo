@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+
 	apiweb "vhrgo/api/frontend/web/v1"
 	"vhrgo/app/frontend/web/internal/biz"
 	"vhrgo/data/model"
@@ -24,7 +25,6 @@ func NewEmployeeRepo(data *Data, logger log.Logger) biz.EmployeeRepo {
 }
 
 func (r employeeRepo) List(ctx context.Context, req *apiweb.GetBasicRequest) (res []*model.Employee, err error) {
-	// var employees []*model.Employee
 	sqlStr := "select * from employee "
 	if err = r.data.db.Select(&res, sqlStr); err != nil {
 		return nil, err
@@ -41,7 +41,7 @@ func (r employeeRepo) Nations(ctx context.Context) (res []string, err error) {
 	return
 }
 
-func (r employeeRepo) Joblevels(ctx context.Context) (res []*model.JobLevel, err error) {
+func (r employeeRepo) Joblevels(ctx context.Context) (res []model.JobLevel, err error) {
 	sqlStr := "selet * from joblevel"
 	if err = r.data.db.Select(&res, sqlStr); err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func (r employeeRepo) Politicsstatus(ctx context.Context) (res []string, err err
 	return
 }
 
-func (r employeeRepo) Deps(ctx context.Context) (res []*model.Department, err error) {
+func (r employeeRepo) Deps(ctx context.Context) (res []model.Department, err error) {
 	sqlStr := "selet * from department"
 	if err = r.data.db.Select(&res, sqlStr); err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (r employeeRepo) Deps(ctx context.Context) (res []*model.Department, err er
 	return
 }
 
-func (r employeeRepo) Positions(ctx context.Context) (res []*model.Position, err error) {
+func (r employeeRepo) Positions(ctx context.Context) (res []model.Position, err error) {
 	sqlStr := "selet * from positions"
 	if err = r.data.db.Select(&res, sqlStr); err != nil {
 		return nil, err

@@ -160,23 +160,9 @@ func (m *LoginReply) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	// no validation rules for Message
 
-	// no validation rules for Name
-
-	// no validation rules for Phone
-
-	// no validation rules for Telephone
-
-	// no validation rules for Address
-
-	// no validation rules for Enabled
-
-	// no validation rules for Username
-
-	// no validation rules for Userface
-
-	// no validation rules for Remark
+	// no validation rules for Code
 
 	if len(errors) > 0 {
 		return LoginReplyMultiError(errors)

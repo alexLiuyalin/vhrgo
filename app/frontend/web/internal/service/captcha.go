@@ -3,8 +3,6 @@ package service
 import (
 	"context"
 
-	. "vhrgo/pkg/common"
-
 	"github.com/go-kratos/kratos/v2/log"
 	apiweb "vhrgo/api/frontend/web/v1"
 	"vhrgo/app/frontend/web/internal/biz"
@@ -38,9 +36,8 @@ func (s *CaptchaService) Get(ctx context.Context,
 
 func (s *CaptchaService) Verify(ctx context.Context,
 	req *apiweb.VerifyCaptcha) (*apiweb.VerifyCaptchaReply, error) {
-	cid := ctx.Value(ContextCidKey{}).(string)
 	if err := s.uc.VerifyCaptcha(ctx, &apiweb.VerifyCaptcha{
-		Cid:         cid,
+		Cid:         req.Cid,
 		VerifyValue: req.VerifyValue,
 	}); err != nil {
 		return nil, err

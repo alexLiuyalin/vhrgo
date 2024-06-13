@@ -1,6 +1,9 @@
 package service
 
 import (
+	"context"
+
+	apiweb "vhrgo/api/frontend/web/v1"
 	"vhrgo/app/frontend/web/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -32,9 +35,9 @@ func NewUserService(uc *biz.UserUsecase, logger log.Logger) *UserService {
 // }
 
 // Info 获取个人信息
-// func (s *UserService) Info(ctx context.Context, req *apicommon.IdRequest) (*apiweb.UserReply, error) {
-// 	return s.uc.Info(ctx, req)
-// }
+func (s *UserService) Info(ctx context.Context, req *apiweb.UserRequest) (*apiweb.UserReply, error) {
+	return s.uc.Info(ctx, req)
+}
 
 // // List 获取用户列表
 // func (s *UserService) List(ctx context.Context, req *apiweb.ListUserRequest) (*apiweb.ListUserReply, error) {

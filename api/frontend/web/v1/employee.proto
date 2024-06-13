@@ -5,8 +5,6 @@ package api.frontend.web.v1;
 import "google/api/annotations.proto";
 option go_package = "vhrgo/api/frontend/web/v1;v1";
 
-
-
 service Employee {
     // 获取员工信息列表
     rpc List(GetBasicRequest) returns (EmployeeReply) {
@@ -72,38 +70,41 @@ message GetBasicRequest {
     int64 departmentId    = 9;
     string beginDateScope = 10;
 }
-message EmployeeRequset {
-    string name           = 1;
-    string gender         = 2;
-    string birthday       = 3;
-    string idCard         = 4;
-    string wedlock        = 5;
-    int64 nationId        = 6;
-    string nativePlace    = 7;
-    int64 politicId       = 8;
-    string email          = 9;
-    string phone          = 10;
-    string address        = 11;
-    int64 departmentId    = 12;
-    int64 jobLevelId      = 13;
-    int64 posId           = 14;
-    string engageForm     = 15;
-    string tiptopDegree   = 16;
-    string specialty      = 17;
-    string school         = 18;
-    string beginDate      = 19;
-    string workState      = 20;
-    string workID         = 21;
-    double contractTerm   = 22;
-    string conversionTime = 23;
-    string notworkDate    = 24;
-    string beginContract  = 25;
-    string endContract    = 26;
-    int64 workAge         = 27;
+message EmployeeData {
+    int64 id               = 1;
+    string user_name       = 2;   // 用户id
+    string work_id         = 3;   // 工号
+    string name            = 4;   // 员工姓名
+    string gender          = 5;   // 性别
+    string picture         = 6;   // 头像
+    string id_card         = 7;   // 身份证号
+    string id_card_picture = 8;   // 身份证图片
+    string wedlock         = 9;   // 婚姻状况
+    int64 nation           = 10;  // 民族
+    string native_place    = 11;  // 籍贯
+    int64 politic          = 12;  // 政治面貌
+    string email           = 13;  // 邮箱
+    string phone           = 14;  // 电话号码
+    string address         = 15;  // 联系地址
+    int64 department       = 16;  // 所属部门
+    int64 job_level        = 17;  // 职称
+    int64 pos              = 18;  // 职位
+    string engage_form     = 19;  // 聘用形式
+    string tiptop_degree   = 20;  // 最高学历
+    string specialty       = 21;  // 所属专业
+    string school          = 22;  // 毕业院校
+    string begin_date      = 23;  // 入职日期
+    string not_work_date   = 24;  // 离职日期
+    int32 work_status      = 25;  // 在职状态
+    int32 contract_term    = 26;  // 合同期限
+    string conversion_time = 27;  // 转正日期
+    string begin_contract  = 28;  // 合同起始日期
+    string end_contract    = 29;  // 合同终止日期
+    int32 work_age         = 30;  // 工龄
 }
 
 message EmployeeReply {
-    repeated EmployeeRequset data = 1;
+    repeated EmployeeData data = 1;
 }
 
 message GetNationsReply {

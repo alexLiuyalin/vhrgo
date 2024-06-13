@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
+
 	apiweb "vhrgo/api/frontend/web/v1"
 	"vhrgo/app/frontend/web/internal/biz"
 	"vhrgo/data/model"
@@ -26,7 +27,7 @@ func NewMenuRepo(data *Data, logger log.Logger) biz.MenuRepo {
 
 func (r menuRepo) List(ctx context.Context, data string) (res []*apiweb.ListMenuReply_Menu, err error) {
 	var menus []*model.Menu
-	var result *apiweb.ListMenuReply_Menu
+	result := &apiweb.ListMenuReply_Menu{}
 	sqlStr := "select * from menu " + data
 	if err = r.data.db.Select(&menus, sqlStr); err != nil {
 		return nil, err
@@ -48,6 +49,7 @@ func (r *menuRepo) composes(ctx context.Context, model *model.Menu) (*apiweb.Lis
 	if err != nil {
 		return nil, err
 	}
+
 	data := &apiweb.ListMenuReply_Menu{
 		Path:      model.Path.String,
 		Component: model.Component.String,

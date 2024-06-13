@@ -257,35 +257,43 @@ var _ interface {
 	ErrorName() string
 } = GetBasicRequestValidationError{}
 
-// Validate checks the field values on EmployeeRequset with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *EmployeeRequset) Validate() error {
+// Validate checks the field values on EmployeeData with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *EmployeeData) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on EmployeeRequset with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// EmployeeRequsetMultiError, or nil if none found.
-func (m *EmployeeRequset) ValidateAll() error {
+// ValidateAll checks the field values on EmployeeData with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in EmployeeDataMultiError, or
+// nil if none found.
+func (m *EmployeeData) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *EmployeeRequset) validate(all bool) error {
+func (m *EmployeeData) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
+	// no validation rules for Id
+
+	// no validation rules for UserId
+
+	// no validation rules for WorkId
+
 	// no validation rules for Name
 
 	// no validation rules for Gender
 
-	// no validation rules for Birthday
+	// no validation rules for Picture
 
 	// no validation rules for IdCard
+
+	// no validation rules for IdCardPicture
 
 	// no validation rules for Wedlock
 
@@ -317,15 +325,13 @@ func (m *EmployeeRequset) validate(all bool) error {
 
 	// no validation rules for BeginDate
 
-	// no validation rules for WorkState
+	// no validation rules for NotWorkDate
 
-	// no validation rules for WorkID
+	// no validation rules for WorkStatus
 
 	// no validation rules for ContractTerm
 
 	// no validation rules for ConversionTime
-
-	// no validation rules for NotworkDate
 
 	// no validation rules for BeginContract
 
@@ -334,19 +340,18 @@ func (m *EmployeeRequset) validate(all bool) error {
 	// no validation rules for WorkAge
 
 	if len(errors) > 0 {
-		return EmployeeRequsetMultiError(errors)
+		return EmployeeDataMultiError(errors)
 	}
 
 	return nil
 }
 
-// EmployeeRequsetMultiError is an error wrapping multiple validation errors
-// returned by EmployeeRequset.ValidateAll() if the designated constraints
-// aren't met.
-type EmployeeRequsetMultiError []error
+// EmployeeDataMultiError is an error wrapping multiple validation errors
+// returned by EmployeeData.ValidateAll() if the designated constraints aren't met.
+type EmployeeDataMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m EmployeeRequsetMultiError) Error() string {
+func (m EmployeeDataMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -355,11 +360,11 @@ func (m EmployeeRequsetMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m EmployeeRequsetMultiError) AllErrors() []error { return m }
+func (m EmployeeDataMultiError) AllErrors() []error { return m }
 
-// EmployeeRequsetValidationError is the validation error returned by
-// EmployeeRequset.Validate if the designated constraints aren't met.
-type EmployeeRequsetValidationError struct {
+// EmployeeDataValidationError is the validation error returned by
+// EmployeeData.Validate if the designated constraints aren't met.
+type EmployeeDataValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -367,22 +372,22 @@ type EmployeeRequsetValidationError struct {
 }
 
 // Field function returns field value.
-func (e EmployeeRequsetValidationError) Field() string { return e.field }
+func (e EmployeeDataValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e EmployeeRequsetValidationError) Reason() string { return e.reason }
+func (e EmployeeDataValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e EmployeeRequsetValidationError) Cause() error { return e.cause }
+func (e EmployeeDataValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e EmployeeRequsetValidationError) Key() bool { return e.key }
+func (e EmployeeDataValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e EmployeeRequsetValidationError) ErrorName() string { return "EmployeeRequsetValidationError" }
+func (e EmployeeDataValidationError) ErrorName() string { return "EmployeeDataValidationError" }
 
 // Error satisfies the builtin error interface
-func (e EmployeeRequsetValidationError) Error() string {
+func (e EmployeeDataValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -394,14 +399,14 @@ func (e EmployeeRequsetValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sEmployeeRequset.%s: %s%s",
+		"invalid %sEmployeeData.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = EmployeeRequsetValidationError{}
+var _ error = EmployeeDataValidationError{}
 
 var _ interface {
 	Field() string
@@ -409,7 +414,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = EmployeeRequsetValidationError{}
+} = EmployeeDataValidationError{}
 
 // Validate checks the field values on EmployeeReply with the rules defined in
 // the proto definition for this message. If any rules are violated, the first

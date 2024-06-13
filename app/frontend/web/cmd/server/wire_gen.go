@@ -29,13 +29,14 @@ func wireApp(confServer *conf.Server, confData *conf.Data, microservices *conf.M
 	if err != nil {
 		return nil, nil, err
 	}
-	userRepo := data.NewUserRepo(dataData, logger)
-	captchaUseCase := biz.NewCaptchaUseCase(userRepo, logger)
+	captchaRepo := data.NewCaptchaRepo(dataData, logger)
+	captchaUseCase := biz.NewCaptchaUseCase(captchaRepo, logger)
 	captchaService := service.NewCaptchaService(captchaUseCase, logger)
-	userUsecase := biz.NewUserUseCase(userRepo, logger)
+	userRepo := data.NewUserRepo(dataData, logger)
+	authRepo := data.NewAuthRepo(dataData, logger)
+	userUsecase := biz.NewUserUseCase(userRepo, authRepo, logger)
 	userService := service.NewUserService(userUsecase, logger)
-	hrRepo := data.NewHrRepo(dataData, logger)
-	authUseCase := biz.NewAuthUseCase(logger, hrRepo)
+	authUseCase := biz.NewAuthUseCase(logger, userRepo, authRepo, captchaRepo)
 	authService := service.NewAuthService(authUseCase, logger)
 	menuRepo := data.NewMenuRepo(dataData, logger)
 	menuUsecase := biz.NewMenuUseCase(menuRepo, logger)

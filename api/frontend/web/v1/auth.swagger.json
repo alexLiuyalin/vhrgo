@@ -113,32 +113,10 @@
     "v1LoginReply": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "name": {
+        "message": {
           "type": "string"
         },
-        "phone": {
-          "type": "string"
-        },
-        "telephone": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "enabled": {
-          "type": "boolean"
-        },
-        "username": {
-          "type": "string"
-        },
-        "userface": {
-          "type": "string"
-        },
-        "remark": {
+        "code": {
           "type": "string"
         }
       }

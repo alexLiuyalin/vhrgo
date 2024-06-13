@@ -14,19 +14,40 @@ service User {
         };
     };
 }
-message  UserRequest{}
+message UserRequest {}
 message UserReply {
     // 用户
     message User {
-        int64 id         = 1;
-        string name      = 2;
-        string phone     = 3;
-        string telephone = 4;
-        string address   = 5;
-        int32 enabled    = 6;
-        string username  = 7;
-        string userface  = 8;
-        string remark    = 9;
+        int64 id               = 1;
+        string user_name       = 2;   // 用户账号
+        string work_id         = 3;   // 工号
+        string name            = 4;   // 员工姓名
+        string gender          = 5;   // 性别
+        string picture         = 6;   // 头像
+        string id_card         = 7;   // 身份证号
+        string id_card_picture = 8;   // 身份证图片
+        string wedlock         = 9;   // 婚姻状况
+        int64 nation_id        = 10;  // 民族
+        string native_place    = 11;  // 籍贯
+        int64 politic_id       = 12;  // 政治面貌
+        string email           = 13;  // 邮箱
+        string phone           = 14;  // 电话号码
+        string address         = 15;  // 联系地址
+        int64 department_id    = 16;  // 所属部门
+        int64 job_level_id     = 17;  // 职称ID
+        int64 pos_id           = 18;  // 职位ID
+        string engage_form     = 19;  // 聘用形式
+        string tiptop_degree   = 20;  // 最高学历
+        string specialty       = 21;  // 所属专业
+        string school          = 22;  // 毕业院校
+        string begin_date      = 23;  // 入职日期
+        string not_work_date   = 24;  // 离职日期
+        int32 work_status      = 25;  // 在职状态
+        int32 contract_term    = 26;  // 合同期限
+        string conversion_time = 27;  // 转正日期
+        string begin_contract  = 28;  // 合同起始日期
+        string end_contract    = 29;  // 合同终止日期
+        int32 work_age         = 30;  // 工龄
     }
     User data = 1;
 }

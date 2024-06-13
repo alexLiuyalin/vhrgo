@@ -41,6 +41,6 @@ logs
 *.drawio.bkp
 *.drawio.dtmp
 
-# 项目相关目录和文件
+# 项目相关目录和件
 docker
 logs/

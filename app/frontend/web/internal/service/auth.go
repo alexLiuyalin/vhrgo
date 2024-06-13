@@ -27,24 +27,16 @@ func NewAuthService(
 }
 func (s *AuthService) Login(ctx context.Context,
 	req *apiweb.LoginRequest) (*apiweb.LoginReply, error) {
-	token, res, err := s.uc.Login(ctx, req)
+	token, err := s.uc.Login(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 	tr, _ := transport.FromServerContext(ctx)
 	tr.ReplyHeader().Set("Token", token) // 把 token 放在头部
 	return &apiweb.LoginReply{
-		Id:        res.ID,
-		Name:      res.Name.String,
-		Phone:     res.Phone.String,
-		Telephone: res.Telephone.String,
-		Address:   res.Address.String,
-		Enabled:   res.Enabled.Bool,
-		Username:  res.Username.String,
-		Userface:  res.Userface.String,
-		Remark:    res.Remark.String,
+		Message: "success",
+		Code:    "200",
 	}, nil
-
 }
 
 // Logout 登出

@@ -6,7 +6,6 @@ import "google/api/annotations.proto";
 
 option go_package = "api/frontend/app/v1;v1";
 
-
 service Auth {
     rpc Login(LoginRequest) returns (LoginReply) {
         option (google.api.http) = {

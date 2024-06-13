@@ -286,21 +286,63 @@ func (m *UserReply_User) validate(all bool) error {
 
 	// no validation rules for Id
 
+	// no validation rules for UserName
+
+	// no validation rules for WorkId
+
 	// no validation rules for Name
+
+	// no validation rules for Gender
+
+	// no validation rules for Picture
+
+	// no validation rules for IdCard
+
+	// no validation rules for IdCardPicture
+
+	// no validation rules for Wedlock
+
+	// no validation rules for NationId
+
+	// no validation rules for NativePlace
+
+	// no validation rules for PoliticId
+
+	// no validation rules for Email
 
 	// no validation rules for Phone
 
-	// no validation rules for Telephone
-
 	// no validation rules for Address
 
-	// no validation rules for Enabled
+	// no validation rules for DepartmentId
 
-	// no validation rules for Username
+	// no validation rules for JobLevelId
 
-	// no validation rules for Userface
+	// no validation rules for PosId
 
-	// no validation rules for Remark
+	// no validation rules for EngageForm
+
+	// no validation rules for TiptopDegree
+
+	// no validation rules for Specialty
+
+	// no validation rules for School
+
+	// no validation rules for BeginDate
+
+	// no validation rules for NotWorkDate
+
+	// no validation rules for WorkStatus
+
+	// no validation rules for ContractTerm
+
+	// no validation rules for ConversionTime
+
+	// no validation rules for BeginContract
+
+	// no validation rules for EndContract
+
+	// no validation rules for WorkAge
 
 	if len(errors) > 0 {
 		return UserReply_UserMultiError(errors)

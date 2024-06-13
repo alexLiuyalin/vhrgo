@@ -13,10 +13,10 @@ import (
 type EmployeeRepo interface {
 	List(ctx context.Context, req *apiweb.GetBasicRequest) ([]*model.Employee, error)
 	Nations(ctx context.Context) ([]string, error)
-	Joblevels(ctx context.Context) ([]*model.JobLevel, error)
+	Joblevels(ctx context.Context) ([]model.JobLevel, error)
 	Politicsstatus(ctx context.Context) ([]string, error)
-	Deps(ctx context.Context) ([]*model.Department, error)
-	Positions(ctx context.Context) ([]*model.Position, error)
+	Deps(ctx context.Context) ([]model.Department, error)
+	Positions(ctx context.Context) ([]model.Position, error)
 	MaxWorkID(ctx context.Context) (string, error)
 	Export(ctx context.Context) (string, error)
 }
@@ -33,41 +33,43 @@ func NewEmployeeUseCase(repo EmployeeRepo, logger log.Logger) *EmployeeUsecase {
 	}
 }
 
-func (uc *EmployeeUsecase) List(ctx context.Context, req *apiweb.GetBasicRequest) ([]*apiweb.EmployeeRequset, error) {
+func (uc *EmployeeUsecase) List(ctx context.Context, req *apiweb.GetBasicRequest) ([]*apiweb.EmployeeData, error) {
 	res, err := uc.repo.List(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	var employees []*apiweb.EmployeeRequset
+	var employees []*apiweb.EmployeeData
 	for _, v := range res {
-		res := &apiweb.EmployeeRequset{
+		res := &apiweb.EmployeeData{
+			Id:             v.ID,
+			WorkId:         v.WorkId.String,
 			Name:           v.Name.String,
 			Gender:         v.Gender.String,
-			Birthday:       v.Birthday.Time.Format(time.DateTime),
-			IdCard:         v.IDCard.String,
+			Picture:        v.Picture.String,
+			IdCard:         v.IdCard.String,
+			IdCardPicture:  v.IdCardPicture.String,
 			Wedlock:        v.Wedlock.String,
-			NationId:       v.NationID.Int64,
+			NationId:       v.NationId.Int64,
 			NativePlace:    v.NativePlace.String,
-			PoliticId:      v.PoliticID.Int64,
+			PoliticId:      v.PoliticId.Int64,
 			Email:          v.Email.String,
 			Phone:          v.Phone.String,
 			Address:        v.Address.String,
-			DepartmentId:   v.DepartmentID.Int64,
-			JobLevelId:     v.JobLevelID.Int64,
-			PosId:          v.PosID.Int64,
+			DepartmentId:   v.DepartmentId.Int64,
+			JobLevelId:     v.JobLevelId.Int64,
+			PosId:          v.PosId.Int64,
 			EngageForm:     v.EngageForm.String,
 			TiptopDegree:   v.TiptopDegree.String,
 			Specialty:      v.Specialty.String,
 			School:         v.School.String,
-			BeginDate:      v.BeginDate.Time.Format(time.DateTime),
-			WorkState:      v.WorkState.String,
-			WorkID:         v.WorkID.String,
-			ContractTerm:   v.ContractTerm.Float64,
-			ConversionTime: v.ConversionTime.Time.Format(time.DateTime),
-			NotworkDate:    v.NotWorkDate.Time.Format(time.DateTime),
-			BeginContract:  v.BeginContract.Time.Format(time.DateTime),
-			EndContract:    v.EndContract.Time.Format(time.DateTime),
-			WorkAge:        v.WorkAge.Int64,
+			BeginDate:      v.BeginDate.Time.Format(time.DateOnly),
+			WorkStatus:     v.WorkStatus.Int32,
+			ContractTerm:   v.ContractTerm.Int32,
+			ConversionTime: v.ConversionTime.Time.Format(time.DateOnly),
+			NotWorkDate:    v.NotWorkDate.Time.Format(time.DateOnly),
+			BeginContract:  v.BeginContract.Time.Format(time.DateOnly),
+			EndContract:    v.EndContract.Time.Format(time.DateOnly),
+			WorkAge:        v.WorkAge.Int32,
 		}
 		employees = append(employees, res)
 	}
@@ -89,7 +91,7 @@ func (uc *EmployeeUsecase) Joblevels(ctx context.Context) ([]*apiweb.Joblevels, 
 			Id:         v.ID,
 			Name:       v.Name.String,
 			TitleLevel: v.TitleLevel.String,
-			CreateDate: v.CreateDate.Time.Format(time.DateTime),
+			CreateDate: v.CreateDate.Time.Format(time.DateOnly),
 			Enabled:    v.Enabled.Bool,
 		})
 	}
@@ -130,7 +132,7 @@ func (uc *EmployeeUsecase) Positions(ctx context.Context) ([]*apiweb.Position, e
 		list = append(list, &apiweb.Position{
 			Id:         v.ID,
 			Name:       v.Name.String,
-			CreateDate: v.CreateDate.Time.Format(time.DateTime),
+			CreateDate: v.CreateDate.Time.Format(time.DateOnly),
 			Enabled:    v.Enabled.Bool,
 		})
 	}

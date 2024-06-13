@@ -48,30 +48,129 @@
           "type": "string",
           "format": "int64"
         },
+        "userName": {
+          "type": "string",
+          "title": "用户账号"
+        },
+        "workId": {
+          "type": "string",
+          "title": "工号"
+        },
         "name": {
-          "type": "string"
+          "type": "string",
+          "title": "员工姓名"
+        },
+        "gender": {
+          "type": "string",
+          "title": "性别"
+        },
+        "picture": {
+          "type": "string",
+          "title": "头像"
+        },
+        "idCard": {
+          "type": "string",
+          "title": "身份证号"
+        },
+        "idCardPicture": {
+          "type": "string",
+          "title": "身份证图片"
+        },
+        "wedlock": {
+          "type": "string",
+          "title": "婚姻状况"
+        },
+        "nationId": {
+          "type": "string",
+          "format": "int64",
+          "title": "民族"
+        },
+        "nativePlace": {
+          "type": "string",
+          "title": "籍贯"
+        },
+        "politicId": {
+          "type": "string",
+          "format": "int64",
+          "title": "政治面貌"
+        },
+        "email": {
+          "type": "string",
+          "title": "邮箱"
         },
         "phone": {
-          "type": "string"
-        },
-        "telephone": {
-          "type": "string"
+          "type": "string",
+          "title": "电话号码"
         },
         "address": {
-          "type": "string"
+          "type": "string",
+          "title": "联系地址"
         },
-        "enabled": {
+        "departmentId": {
+          "type": "string",
+          "format": "int64",
+          "title": "所属部门"
+        },
+        "jobLevelId": {
+          "type": "string",
+          "format": "int64",
+          "title": "职称ID"
+        },
+        "posId": {
+          "type": "string",
+          "format": "int64",
+          "title": "职位ID"
+        },
+        "engageForm": {
+          "type": "string",
+          "title": "聘用形式"
+        },
+        "tiptopDegree": {
+          "type": "string",
+          "title": "最高学历"
+        },
+        "specialty": {
+          "type": "string",
+          "title": "所属专业"
+        },
+        "school": {
+          "type": "string",
+          "title": "毕业院校"
+        },
+        "beginDate": {
+          "type": "string",
+          "title": "入职日期"
+        },
+        "notWorkDate": {
+          "type": "string",
+          "title": "离职日期"
+        },
+        "workStatus": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "title": "在职状态"
         },
-        "username": {
-          "type": "string"
+        "contractTerm": {
+          "type": "integer",
+          "format": "int32",
+          "title": "合同期限"
         },
-        "userface": {
-          "type": "string"
+        "conversionTime": {
+          "type": "string",
+          "title": "转正日期"
         },
-        "remark": {
-          "type": "string"
+        "beginContract": {
+          "type": "string",
+          "title": "合同起始日期"
+        },
+        "endContract": {
+          "type": "string",
+          "title": "合同终止日期"
+        },
+        "workAge": {
+          "type": "integer",
+          "format": "int32",
+          "title": "工龄"
         }
       },
       "title": "用户"

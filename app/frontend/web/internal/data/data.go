@@ -23,8 +23,9 @@ var ProviderSet = wire.NewSet(
 	NewRedis,
 	NewUserRepo,
 	NewMenuRepo,
-	NewHrRepo,
 	NewEmployeeRepo,
+	NewCaptchaRepo,
+	NewAuthRepo,
 )
 
 // Data .

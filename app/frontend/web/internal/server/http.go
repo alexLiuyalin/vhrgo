@@ -34,7 +34,7 @@ func NewHTTPServer(c *conf.Server,
 			handlers.AllowedHeaders([]string{"X-Requested-With", "X-Client-ID", "X-Otp", "Content-Type", "Authorization"}),
 			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS", "DELETE"}),
 			handlers.AllowedOrigins([]string{"*"}),
-			handlers.ExposedHeaders([]string{"Token"}),
+			handlers.ExposedHeaders([]string{"token"}),
 		)),
 		// http.ResponseEncoder(customResponseEncoder), // 自定义返回编码器
 		http.ErrorEncoder(customErrorEncoder), // 自定义错误编码器
@@ -51,7 +51,7 @@ func NewHTTPServer(c *conf.Server,
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
-	// apiweb.RegisterUserHTTPServer(srv, user)
+	apiweb.RegisterUserHTTPServer(srv, user)
 	apiweb.RegisterCaptChaHTTPServer(srv, captcha)
 	apiweb.RegisterAuthHTTPServer(srv, auth)
 	apiweb.RegisterMenuHTTPServer(srv, menu)

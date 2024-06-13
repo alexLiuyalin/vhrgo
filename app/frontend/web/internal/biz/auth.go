@@ -2,44 +2,76 @@ package biz
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
+	"strconv"
 
-	"github.com/golang-jwt/jwt/v5"
-	apiweb "vhrgo/api/frontend/web/v1"
-	"vhrgo/data/model"
+	. "vhrgo/pkg/common"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/golang-jwt/jwt/v5"
+	apiweb "vhrgo/api/frontend/web/v1"
 )
 
-//	type AuthRepo interface {
-//		Login(ctx context.Context, req *csV1.LoginPcRequest) (*csV1.LoginPcReply, error)
-//		VerifyToken(ctx context.Context, req *csV1.VerifyTokenRequest) (*csV1.VerifyTokenReply, error)
-//		Logout(ctx context.Context, req *csV1.LogoutRequest) (*csV1.LogoutReply, error)
-//	}
+type AuthRepo interface {
+	GetIdByCid(ctx context.Context, cid string) (string, error)
+	SetIdByCid(ctx context.Context, cid, id string) error
+	SetToken(ctx context.Context, id, token string) error
+	GetToken(ctx context.Context, id string) (string, error)
+}
+
 type AuthUseCase struct {
-	hrRepo      HrRepo
+	userRepo    UserRepo
+	authRepo    AuthRepo
+	captchaRepo CaptchaRepo
 	log         *log.Helper
 	securityKey string
 }
 
 func NewAuthUseCase(logger log.Logger,
-	hrRepo HrRepo,
+	userRepo UserRepo,
+	authRepo AuthRepo,
+	captchaRepo CaptchaRepo,
 ) *AuthUseCase {
 	return &AuthUseCase{
-		hrRepo: hrRepo,
-		log:    log.NewHelper(log.With(logger, "module", "biz/login")),
+		authRepo:    authRepo,
+		userRepo:    userRepo,
+		captchaRepo: captchaRepo,
+		log:         log.NewHelper(log.With(logger, "module", "biz/login")),
 		// securityKey: conf.SecurityKey,
 	}
 }
 
-func (uc *AuthUseCase) Login(ctx context.Context, req *apiweb.LoginRequest) (string, model.HR, error) {
-	tokenData := jwt.New(jwt.SigningMethodES512)
-	token, _ := tokenData.SignedString("123456")
-
-	res, err := uc.hrRepo.Get(ctx, req.Account)
-	if req.Password != res.Password.String {
-		return "", model.HR{}, err
+func (uc *AuthUseCase) Login(ctx context.Context, req *apiweb.LoginRequest) (string, error) {
+	cid := ctx.Value(ContextCidKey{}).(string)
+	// 是否验证过验证码
+	err := uc.captchaRepo.GetSuccessCaptcha(ctx, cid)
+	if err != nil {
+		return "", err
 	}
-	return token, res, nil
+	d, _ := json.Marshal("123456")
+	tokenData := jwt.New(jwt.SigningMethodHS256) // 访问 https://golang-jwt.github.io/jwt/usage/create/
+	token, err := tokenData.SignedString(d)
+	if err != nil {
+		uc.log.Error("token", err)
+	}
+	user, err := uc.userRepo.GetPassword(ctx, req.Account)
+	if err != nil {
+		return "", errors.New("账号错误")
+	}
+	if req.Password != user.Password.String {
+		return "", errors.New("密码错误")
+	}
+
+	err = uc.authRepo.SetIdByCid(ctx, cid, strconv.Itoa(int(user.ID)))
+	if err != nil {
+		return "", err
+	}
+	err = uc.authRepo.SetToken(ctx, strconv.Itoa(int(user.ID)), token)
+	if err != nil {
+		return "", err
+	}
+	return token, nil
 }
 
 func (uc *AuthUseCase) Logout(ctx context.Context) error {
