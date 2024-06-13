@@ -1,0 +1,46 @@
+# 参考 https://github.com/github/gitignore/blob/master/Go.gitignore
+# 程序和插件的二进制文件
+*.exe
+*.exe~
+*.dll
+*.dylib
+
+# 使用 `go test -c` 生成的测试二进制文件
+*.test
+
+# 使用 LiteIDE 时，go 覆盖工具的输出文件
+*.out
+
+# 依赖目录（移除下面的注释以包含它）
+vendor/
+
+# Go 工作区文件
+go.work
+
+# 编译的对象文件，静态和动态库（共享对象）
+*.o
+*.a
+*.so
+
+# 操作系统常见文件
+Thumbs.db
+.DS_Store
+
+# 项目相关文件
+*.cert
+*.key
+*.log
+logs
+
+# 开发工具相关文件
+# .vscode/
+.idea/
+*.swp
+
+# draw.io 文件
+*.drawio.bkp
+*.drawio.dtmp
+
+# 项目相关目录和文件
+docker
+logs/

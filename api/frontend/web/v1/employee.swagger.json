@@ -1,0 +1,559 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "v1/employee.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Employee"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/employee/basic": {
+      "get": {
+        "summary": "获取员工信息列表",
+        "operationId": "Employee_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EmployeeReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "politicId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "nationId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "jobLevelId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "posId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "engageForm",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "departmentId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "beginDateScope",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Employee"
+        ]
+      }
+    },
+    "/api/v1/employee/basic/deps": {
+      "get": {
+        "summary": "部门",
+        "operationId": "Employee_Deps",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetDepsReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Employee"
+        ]
+      }
+    },
+    "/api/v1/employee/basic/joblevels": {
+      "get": {
+        "summary": "职称",
+        "operationId": "Employee_Joblevels",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetJoblevelsReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Employee"
+        ]
+      }
+    },
+    "/api/v1/employee/basic/nations": {
+      "get": {
+        "summary": "民族",
+        "operationId": "Employee_Nations",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetNationsReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Employee"
+        ]
+      }
+    },
+    "/api/v1/employee/basic/politicsstatus": {
+      "get": {
+        "summary": "政治面貌",
+        "operationId": "Employee_Politicsstatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetPoliticsstatusReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Employee"
+        ]
+      }
+    },
+    "/api/v1/employee/basic/positions": {
+      "get": {
+        "summary": "职位",
+        "operationId": "Employee_Positions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetPositionsReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Employee"
+        ]
+      }
+    },
+    "/employee/basic/export": {
+      "post": {
+        "summary": "导出数据",
+        "operationId": "Employee_Export",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetExportReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetEmptyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Employee"
+        ]
+      }
+    },
+    "/employee/basic/maxWorkID": {
+      "get": {
+        "summary": "返回的是最大的工号",
+        "operationId": "Employee_MaxWorkID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetMaxWorkIDReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Employee"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Department": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "parentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "depPath": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "isParent": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1EmployeeReply": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1EmployeeRequset"
+          }
+        }
+      }
+    },
+    "v1EmployeeRequset": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "birthday": {
+          "type": "string"
+        },
+        "idCard": {
+          "type": "string"
+        },
+        "wedlock": {
+          "type": "string"
+        },
+        "nationId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "nativePlace": {
+          "type": "string"
+        },
+        "politicId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "departmentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "jobLevelId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "posId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "engageForm": {
+          "type": "string"
+        },
+        "tiptopDegree": {
+          "type": "string"
+        },
+        "specialty": {
+          "type": "string"
+        },
+        "school": {
+          "type": "string"
+        },
+        "beginDate": {
+          "type": "string"
+        },
+        "workState": {
+          "type": "string"
+        },
+        "workID": {
+          "type": "string"
+        },
+        "contractTerm": {
+          "type": "number",
+          "format": "double"
+        },
+        "conversionTime": {
+          "type": "string"
+        },
+        "notworkDate": {
+          "type": "string"
+        },
+        "beginContract": {
+          "type": "string"
+        },
+        "endContract": {
+          "type": "string"
+        },
+        "workAge": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1GetDepsReply": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Department"
+          }
+        }
+      }
+    },
+    "v1GetEmptyRequest": {
+      "type": "object"
+    },
+    "v1GetExportReply": {
+      "type": "object",
+      "properties": {
+        "export": {
+          "type": "string"
+        }
+      }
+    },
+    "v1GetJoblevelsReply": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/webv1Joblevels"
+          }
+        }
+      }
+    },
+    "v1GetMaxWorkIDReply": {
+      "type": "object",
+      "properties": {
+        "maxWorkId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1GetNationsReply": {
+      "type": "object",
+      "properties": {
+        "nations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1GetPoliticsstatusReply": {
+      "type": "object",
+      "properties": {
+        "politicsstatus": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1GetPositionsReply": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Position"
+          }
+        }
+      }
+    },
+    "v1Position": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "webv1Joblevels": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "titleLevel": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

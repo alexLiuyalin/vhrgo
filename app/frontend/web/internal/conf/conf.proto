@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package kratos.api;
+
+import "google/protobuf/duration.proto";
+import "validate/validate.proto";
+
+option go_package = "vhrgo/api/frontend/web/internal/conf;conf";
+
+message Bootstrap {
+    Server server               = 1;
+    Log log                     = 2;
+    Data data                   = 3;
+    Management management       = 4;
+    Microservices microservices = 5;
+}
+
+message Server {
+    message HTTP {
+        string network = 1;
+        string addr    = 2 [
+            (validate.rules).string.pattern =
+                "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}:\\d+$"
+        ];  // 匹配符合 IPv4 格式的地址
+        google.protobuf.Duration timeout = 3
+        [(validate.rules).duration.required = true];
+    }
+    string name = 1 [(validate.rules).string.hostname = true];  // 服务名称
+    HTTP http   = 2;
+    string security_key = 3;
+    string export_dir = 4 [(validate.rules).string.min_len = 1];  // 导出路径
+    string timezone = 5;
+}
+
+message Log {
+    string env = 1
+    [(validate.rules).string.min_len = 1];  // 运行环境 prod dev 默认:prod
+    string level  = 2 [(validate.rules).string = {
+        in: [ "info", "debug", "warning", "error" ]
+    }];  // 日志等级 debug info error 默认:info
+    string format = 3 [
+        (validate.rules).string = { in: [ "json", "logFmt" ] }
+    ];  // 日志格式 json logFmt 默认:logFmt
+    string path = 4
+    [(validate.rules).string.min_len = 1];  // 日志存储路径 默认在当前目录
+    string file_name = 5
+    [(validate.rules).string.min_len = 1];  // 日志名称 默认:app.log
+    int64 max_age  = 6;  // 日志保留时间 默认:不限制 单位:天
+    int64 max_size = 7;  // 日志最大文件大小 默认:不限制 单位:mb
+    int64 max_backups = 8;   // 日志备份数量 默认:不限制
+    bool compress     = 9;   // 日志是否压缩 默认:false
+    bool stdout       = 10;  // 日志是否打印到终端 默认:false
+}
+
+message Management {
+    message Registry {
+        // repeated string endpoints = 1;  // 接入
+        repeated string endpoints = 1
+        [(validate.rules).repeated = { min_items: 1 }];  // 接入
+        google.protobuf.Duration auto_sync_interval = 2
+        [(validate.rules).duration.required =
+            true];  // 自动同步间隔 为0时默认禁用
+
+        google.protobuf.Duration dial_timeout = 3
+        [(validate.rules).duration.required = true];  // 连接超时时间
+        google.protobuf.Duration dial_keep_alive_time = 4
+        [(validate.rules).duration.required = true];  // 保持活动时间
+        google.protobuf.Duration dial_keep_alive_timeout = 5
+        [(validate.rules).duration.required = true];  // 保持活动超时
+        int32 max_call_send_msg_size = 6;  // 最大发送数据 为0时默认
+        int32 max_call_recv_msg_size = 7;  // 最小接收数据 为0时默认
+        string username              = 8;
+        string password              = 9;
+        bool reject_old_cluster      = 10;  // 拒绝旧集群
+        bool permit_without_stream   = 11;  // 允许无流
+        string namespace             = 12
+        [(validate.rules).string.min_len = 1];  // 名称空间
+        google.protobuf.Duration register_ttl = 13
+        [(validate.rules).duration.required = true];
+        int32 max_retry = 14;  // 重试次数
+    }
+    message Trace {
+        string addr = 1 [(validate.rules).string.uri = true];
+    }
+    Trace trace       = 1;
+    Registry registry = 2;
+}
+
+message Data {
+    message Database {
+        string driver        = 1 [(validate.rules).string.min_len = 1];
+        string source        = 2 [(validate.rules).string.min_len = 1];
+        int32 max_idle_conns = 3;  // 最大空闲连接数
+        int32 max_open_conns = 4;  // 最大连接数
+        google.protobuf.Duration conn_max_lifetime = 5
+        [(validate.rules).duration.required = true];  // 连接最大生命周期
+    }
+    message Redis {
+        string network  = 1;
+        string addr     = 2 [(validate.rules).string.pattern =
+            "^(?:\\d{1,3}\\.){3}\\d{1,3}:\\d+$"];
+        string password = 3;
+        google.protobuf.Duration read_timeout = 5
+        [(validate.rules).duration.required = true];  // 读取超时时间
+        google.protobuf.Duration write_timeout = 6
+        [(validate.rules).duration.required = true];  // 写入超时时间
+        google.protobuf.Duration dial_timeout = 7
+        [(validate.rules).duration.required = true];  // 连接超时时间
+        int64 pool_size = 8;
+        int64 db        = 9;
+    }
+    Database database = 1;
+    Redis redis       = 2;
+}
+
+message Microservices {
+    string core = 2 [(validate.rules).string.hostname = true];
+}
+

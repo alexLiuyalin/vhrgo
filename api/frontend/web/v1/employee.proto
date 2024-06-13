@@ -1,0 +1,153 @@
+syntax = "proto3";
+
+package api.frontend.web.v1;
+
+import "google/api/annotations.proto";
+option go_package = "vhrgo/api/frontend/web/v1;v1";
+
+
+
+service Employee {
+    // 获取员工信息列表
+    rpc List(GetBasicRequest) returns (EmployeeReply) {
+        option (google.api.http) = {
+            get: "/api/v1/employee/basic"
+        };
+    };
+    // 民族
+    rpc Nations(GetEmptyRequest) returns (GetNationsReply) {
+        option (google.api.http) = {
+            get: "/api/v1/employee/basic/nations"
+        };
+    };
+    // 职称
+    rpc Joblevels(GetEmptyRequest) returns (GetJoblevelsReply) {
+        option (google.api.http) = {
+            get: "/api/v1/employee/basic/joblevels"
+        };
+    };
+    // 政治面貌
+    rpc Politicsstatus(GetEmptyRequest) returns (GetPoliticsstatusReply) {
+        option (google.api.http) = {
+            get: "/api/v1/employee/basic/politicsstatus"
+        };
+    };
+    // 部门
+    rpc Deps(GetEmptyRequest) returns (GetDepsReply) {
+        option (google.api.http) = {
+            get: "/api/v1/employee/basic/deps"
+        };
+    };
+    // 职位
+    rpc Positions(GetEmptyRequest) returns (GetPositionsReply) {
+        option (google.api.http) = {
+            get: "/api/v1/employee/basic/positions"
+        };
+    };
+    // 返回的是最大的工号
+    rpc MaxWorkID(GetEmptyRequest) returns (GetMaxWorkIDReply) {
+        option (google.api.http) = {
+            get: "/employee/basic/maxWorkID"
+        };
+    };
+    // 导出数据
+    rpc Export(GetEmptyRequest) returns (GetExportReply) {
+        option (google.api.http) = {
+            post: "/employee/basic/export"
+            body: "*"
+        };
+    };
+}
+
+message GetEmptyRequest {}
+message GetBasicRequest {
+    int64 page            = 1;
+    int64 size            = 2;
+    optional string name  = 3;
+    int64 politicId       = 4;
+    int64 nationId        = 5;
+    int64 jobLevelId      = 6;
+    int64 posId           = 7;
+    string engageForm     = 8;
+    int64 departmentId    = 9;
+    string beginDateScope = 10;
+}
+message EmployeeRequset {
+    string name           = 1;
+    string gender         = 2;
+    string birthday       = 3;
+    string idCard         = 4;
+    string wedlock        = 5;
+    int64 nationId        = 6;
+    string nativePlace    = 7;
+    int64 politicId       = 8;
+    string email          = 9;
+    string phone          = 10;
+    string address        = 11;
+    int64 departmentId    = 12;
+    int64 jobLevelId      = 13;
+    int64 posId           = 14;
+    string engageForm     = 15;
+    string tiptopDegree   = 16;
+    string specialty      = 17;
+    string school         = 18;
+    string beginDate      = 19;
+    string workState      = 20;
+    string workID         = 21;
+    double contractTerm   = 22;
+    string conversionTime = 23;
+    string notworkDate    = 24;
+    string beginContract  = 25;
+    string endContract    = 26;
+    int64 workAge         = 27;
+}
+
+message EmployeeReply {
+    repeated EmployeeRequset data = 1;
+}
+
+message GetNationsReply {
+    repeated string nations = 1;
+}
+
+message Joblevels {
+    int64 id          = 1;
+    string name       = 2;
+    string titleLevel = 3;
+    string createDate = 4;
+    bool enabled      = 5;
+}
+message GetJoblevelsReply {
+    repeated Joblevels data = 1;
+}
+message GetPoliticsstatusReply {
+    repeated string politicsstatus = 1;
+}
+
+message Department {
+    int64 id        = 1;
+    string name     = 2;
+    int64 parent_id = 3;
+    string dep_path = 4;
+    bool enabled    = 5;
+    bool is_parent  = 6;
+}
+message GetDepsReply {
+    repeated Department data = 1;
+}
+
+message Position {
+    int64 id          = 1;
+    string name       = 2;
+    string createDate = 3;
+    bool enabled      = 4;
+}
+message GetPositionsReply {
+    repeated Position data = 1;
+}
+message GetMaxWorkIDReply {
+    string max_work_id = 1;
+}
+message GetExportReply {
+    string export = 1;
+}

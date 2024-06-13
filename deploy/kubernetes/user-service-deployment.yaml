@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml -o ../kubernetes
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: core-service
+  name: core-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: core-service
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml -o ../kubernetes
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: core-service
+    spec:
+      containers:
+        - image: go-kratos/beer-core-service:0.1.0
+          name: core-service
+          resources: {}
+      hostname: core-service
+      restartPolicy: Always
+status: {}

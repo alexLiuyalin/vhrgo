@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api.frontend.web.v1;
+
+import "google/api/annotations.proto";
+option go_package = "vhrgo/api/frontend/web/v1;v1";
+
+service Menu {
+    rpc List(ListMenuRequest) returns (ListMenuReply) {
+        option (google.api.http) = {
+            get: "/api/v1/menu"
+        };
+    };
+}
+
+message ListMenuRequest {}
+
+message ListMenuReply {
+    message Menu {
+        string path            = 1;
+        string component       = 2;
+        string name            = 3;
+        string iconCls         = 4;
+        bool meta              = 5;
+        repeated Menu children = 6;
+    }
+    repeated Menu data = 1;
+}

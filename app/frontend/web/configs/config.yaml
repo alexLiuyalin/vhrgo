@@ -1,0 +1,54 @@
+server:
+  name: "alex.web"
+  http:
+    addr: :9901
+    timeout: 200s
+  security_key: 49d51d85-1dad-4eee-9bad-f148f704d013
+  export_dir: files
+  timezone: "Asia/Shanghai"
+log:
+  env: prod
+  level: info
+  format: json
+  path: logs
+  file_name: server.log
+  max_age: 15
+  max_size: 25
+  max_backups: 15
+  compress: true
+  stdout: true
+management:
+  trace:
+    addr: http://192.168.31.200:14268/api/traces
+  registry:
+    endpoints:
+      - 127.0.0.1:2379
+    auto_sync_interval: 0s
+    dial_timeout: 30s
+    dial_keep_alive_time: 30s
+    dial_keep_alive_timeout: 30s
+    max_call_send_msg_size: 0
+    max_call_recv_msg_size: 0
+    username:
+    password:
+    reject_old_cluster: true
+    permit_without_stream: true
+    namespace: "/buoy"
+    register_ttl: 15s
+    max_retry: 3
+data:
+  database:
+    driver: mysql
+    source: root:root123456@tcp(localhost:3306)/vhr?charset=utf8mb4&parseTime=True
+    max_idle_conns: 10
+    max_open_conns: 100
+    conn_max_lifetime: 1800s
+  redis:
+    addr: 127.0.0.1:6379
+    read_timeout: 5s
+    write_timeout: 0.2s
+    dial_timeout: 2s
+    pool_size: 10
+    db: 1
+microservices:
+  core: alex.core

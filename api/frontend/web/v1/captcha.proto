@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package api.frontend.web.v1;
+
+import "google/api/annotations.proto";
+option go_package = "vhrgo/api/frontend/web/v1;v1";
+
+service CaptCha {
+    // 获取验证码
+    rpc Get(GetCaptcha) returns (GetCaptchaReply) {
+        option (google.api.http) = {
+            get: "/api/v1/captcha"
+        };
+    }
+
+    // 验证验证码
+    rpc Verify(VerifyCaptcha) returns (VerifyCaptchaReply) {
+        option (google.api.http) = {
+            post: "/api/v1/captcha"
+            body: "*"
+        };
+    };
+}
+
+// Captcha 验证码
+message GetCaptcha {}
+
+message GetCaptchaReply {
+    string b64  = 1;
+    string tb64 = 2;
+    string cid  = 3;
+}
+
+message VerifyCaptcha {
+    string cid          = 1;
+    string verify_value = 2;  // 验证码
+}
+message VerifyCaptchaReply {
+    string message = 1;
+    string code    = 2;
+}

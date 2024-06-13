@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package api.frontend.web.v1;
+
+import "google/api/annotations.proto";
+option go_package = "vhrgo/api/frontend/web/v1;v1";
+
+service Auth {
+    rpc Login(LoginRequest) returns (LoginReply) {
+        option (google.api.http) = {
+            post: "/api/v1/login"
+            body: "*"
+        };
+    };
+    rpc Logout(LogoutRequest) returns (Reply) {
+        option (google.api.http) = {
+            post: "/api/v1/logout"
+            body: "*"
+        };
+    };
+}
+
+message LoginRequest {
+    string account  = 1;
+    string password = 2;
+}
+message LoginReply {
+    int64 id         = 1;
+    string name      = 2;
+    string phone     = 3;
+    string telephone = 4;
+    string address   = 5;
+    bool enabled     = 6;
+    string username  = 7;
+    string userface  = 8;
+    string remark    = 9;
+}
+
+message Reply {
+    string code    = 1;
+    string message = 2;
+}
+message LogoutRequest {}

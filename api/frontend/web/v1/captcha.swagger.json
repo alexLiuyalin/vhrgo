@@ -1,0 +1,141 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "v1/captcha.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "CaptCha"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/captcha": {
+      "get": {
+        "summary": "获取验证码",
+        "operationId": "CaptCha_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetCaptchaReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "CaptCha"
+        ]
+      },
+      "post": {
+        "summary": "验证验证码",
+        "operationId": "CaptCha_Verify",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1VerifyCaptchaReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1VerifyCaptcha"
+            }
+          }
+        ],
+        "tags": [
+          "CaptCha"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1GetCaptchaReply": {
+      "type": "object",
+      "properties": {
+        "b64": {
+          "type": "string"
+        },
+        "tb64": {
+          "type": "string"
+        },
+        "cid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1VerifyCaptcha": {
+      "type": "object",
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "verifyValue": {
+          "type": "string",
+          "title": "验证码"
+        }
+      }
+    },
+    "v1VerifyCaptchaReply": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
